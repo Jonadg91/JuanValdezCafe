@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Juan Valdez Cafe</string>
+
+    <string name="titulo">Bienvenido a Cáfe JUAN VALDEZ!</string>
+    <string name="action_settings">Settings</string>
+    <string name="info_publicidad">Cafe hecho con ...</string>
+    <string name="location">Ubicación</string>
+    <string name="updateplaces">Actualizar Sedes</string>
+    <string name="main">Pagina Principal</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_ubicacion">Ubicacion</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_actualzar_sedes">ActualzarSedes</string>
+</resources>
