@@ -4,5 +4,33 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
     </style>
+    <style name="basico">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="baseboton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_marginBottom">25dp</item>
+        <item name="android:layout_marginRight">25dp</item>
+    </style>
+    <style name="Botonred" parent="baseboton">
+        <item name="android:background">@drawable/buttonred</item>
+    </style>
+    <style name="Botongreen" parent="baseboton">
+        <item name="android:background">@drawable/buttongreen</item>
+    </style>
+    <style name="Botonblue" parent="baseboton">
+        <item name="android:background">@drawable/buttonblue</item>
+    </style>
+    <style name="Botonmarron" parent="baseboton">
+        <item name="android:background">@drawable/buttonmarron</item>
+    </style>
+    <style name="Boton" parent="baseboton">
+        <item name="android:background">@drawable/shape</item>
+    </style>
 
 </resources>

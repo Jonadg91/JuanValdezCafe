@@ -30,19 +30,12 @@ public class ActualzarSedes extends ActionBarActivity implements View.OnClickLis
         setContentView(R.layout.activity_actualzar_sedes);
 
         //Manager = new DataBaseManager(this);
-        lista = (ListView) findViewById(android.R.id.list);
-        Ednombre = (EditText) findViewById(R.id.EdText1);
+        CargarVistaSedes();
 
-        String[] from = new String[]{Manager.CN_NAME, Manager.CN_PHONE};
-        int[] to = new int[]{android.R.id.text1, android.R.id.text2};
-        cursor = Manager.cargarCursorContactos();
-        adapter = new SimpleCursorAdapter(this, android.R.layout.two_line_list_item, cursor, from, to, 0);
-        lista.setAdapter(adapter);
-
-        Button btnbuscar = (Button) findViewById(R.id.btn1);
+        Button btnbuscar = (Button) findViewById(R.id.btnbuscar);
         btnbuscar.setOnClickListener(this);
-        Button btncargar = (Button) findViewById(R.id.btndb);
-        btncargar.setOnClickListener(this);
+        //Button btncargar = (Button) findViewById(R.id.btncargarvista);
+        //btncargar.setOnClickListener(this);
         Button btninsertar = (Button) findViewById(R.id.btninsertar);
         btninsertar.setOnClickListener(this);
         Button btneliminar = (Button) findViewById(R.id.btneliminar);
@@ -75,41 +68,45 @@ public class ActualzarSedes extends ActionBarActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (v.getId()==R.id.btn1){
+        if (v.getId()==R.id.btnbuscar){
             new BuscarTask().execute();
-        }
-        if(v.getId()==R.id.btndb){
-            lista = (ListView) findViewById(android.R.id.list);
-            Ednombre = (EditText) findViewById(R.id.EdText1);
-
-            String[] from = new String[]{Manager.CN_NAME,Manager.CN_PHONE};
-            int[] to = new int[]{android.R.id.text1,android.R.id.text2};
-            cursor = Manager.cargarCursorContactos();
-            adapter = new SimpleCursorAdapter(this,android.R.layout.two_line_list_item,cursor,from,to,0);
-            lista.setAdapter(adapter);
-
+            CargarVistaSedes();
         }
         if (v.getId()==R.id.btninsertar){
             EditText nombre = (EditText) findViewById(R.id.EdNombre);
-            EditText telefono = (EditText) findViewById(R.id.EdLatitud);
-            Manager.insertar(nombre.getText().toString(),telefono.getText().toString());
-            nombre.setText("");
-            telefono.setText("");
+            EditText latitud = (EditText) findViewById(R.id.EdLatitud);
+            EditText longitud =(EditText) findViewById(R.id.EdLongitud);
+            Manager.insertar(nombre.getText().toString(),latitud.getText().toString(),longitud.getText().toString());
+            nombre.setText("");//los pongo en blanco de nuevo
+            latitud.setText("");
+            longitud.setText("");
             Toast.makeText(getApplicationContext(), "Insertado", Toast.LENGTH_SHORT).show();
+            CargarVistaSedes();
         }
         if(v.getId()==R.id.btneliminar){
             EditText nombre = (EditText) findViewById(R.id.EdNombre);
             Manager.eliminar(nombre.getText().toString());
             Toast.makeText(getApplicationContext(),"Eliminado", Toast.LENGTH_SHORT).show();
             nombre.setText("");
+            CargarVistaSedes();
         }
         if (v.getId()==R.id.btnactualizar){
+            EditText nombreviejo = (EditText) findViewById(R.id.EdText1);//Nombre de sede para actualizar
             EditText nombre = (EditText) findViewById(R.id.EdNombre);
-            EditText telefono = (EditText) findViewById(R.id.EdLatitud);
-            Manager.ModificarTelefono(nombre.getText().toString(),telefono.getText().toString());
+            EditText latitud = (EditText) findViewById(R.id.EdLatitud);
+            EditText longitud =(EditText) findViewById(R.id.EdLongitud);
+
+            Manager.ModificarSede(nombreviejo.getText().toString(),nombre.getText().toString(),
+                    latitud.getText().toString(),longitud.getText().toString());
             Toast.makeText(getApplicationContext(),"Actualizado", Toast.LENGTH_SHORT).show();
             nombre.setText("");
-            telefono.setText("");
+            latitud.setText("");
+            longitud.setText("");
+            //deshabilito el Boton despues de actualizar la sede
+            Button btnactualizar = (Button) findViewById(R.id.btnactualizar);
+            btnactualizar.setEnabled(false);
+            nombreviejo.setText("");//queda en blanco luego de actualizar la sede
+            CargarVistaSedes();
         }
 
     }
@@ -139,16 +136,34 @@ public class ActualzarSedes extends ActionBarActivity implements View.OnClickLis
 
     public void obtener () {
         TextView Txnombre = (TextView) findViewById(R.id.Txnombre);
-        TextView Txtelefono = (TextView) findViewById(R.id.TxLatitud);
+        TextView Txlatitud = (TextView) findViewById(R.id.TxLatitud);
+        TextView Txlongitud = (TextView) findViewById(R.id.TxLongitud);
         try{
             String dbnombre = cursor.getString(cursor.getColumnIndex(Manager.CN_NAME));
             Txnombre.setText(dbnombre);
-            String dbtelefono = cursor.getString(cursor.getColumnIndex(Manager.CN_PHONE));
-            Txtelefono.setText(dbtelefono);}
+            String dblatitud = cursor.getString(cursor.getColumnIndex(Manager.CN_LATITUD));
+            Txlatitud.setText(dblatitud);
+            String dblongitud = cursor.getString(cursor.getColumnIndex(Manager.CN_LONGITUD));
+            Txlongitud.setText(dblongitud);
+            Button btnactualizar = (Button) findViewById(R.id.btnactualizar);//habilito el Boton para actualizar sede
+            btnactualizar.setEnabled(true);}
         catch(CursorIndexOutOfBoundsException e){
             Txnombre.setText("No Found");
-            Txtelefono.setText("No Found");
+            Txlatitud.setText("No Found");
+            Txlongitud.setText("No Found");
         }
 
+    }
+
+    //Funcion para cargar la vista en el listview
+    public void CargarVistaSedes(){
+        lista = (ListView) findViewById(android.R.id.list);
+        Ednombre = (EditText) findViewById(R.id.EdText1);
+
+        String[] from = new String[]{Manager.CN_ID,Manager.CN_NAME,Manager.CN_LATITUD,Manager.CN_LONGITUD};
+        int[] to = new int[]{android.R.id.text1,android.R.id.text2};
+        cursor = Manager.cargarCursorContactos();
+        adapter = new SimpleCursorAdapter(this,android.R.layout.two_line_list_item,cursor,from,to,0);
+        lista.setAdapter(adapter);
     }
 }
