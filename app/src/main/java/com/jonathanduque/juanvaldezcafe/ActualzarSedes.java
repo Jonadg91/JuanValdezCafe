@@ -70,7 +70,6 @@ public class ActualzarSedes extends ActionBarActivity implements View.OnClickLis
     public void onClick(View v) {
         if (v.getId()==R.id.btnbuscar){
             new BuscarTask().execute();
-            CargarVistaSedes();
         }
         if (v.getId()==R.id.btninsertar){
             EditText nombre = (EditText) findViewById(R.id.EdNombre);
@@ -81,14 +80,12 @@ public class ActualzarSedes extends ActionBarActivity implements View.OnClickLis
             latitud.setText("");
             longitud.setText("");
             Toast.makeText(getApplicationContext(), "Insertado", Toast.LENGTH_SHORT).show();
-            CargarVistaSedes();
         }
         if(v.getId()==R.id.btneliminar){
             EditText nombre = (EditText) findViewById(R.id.EdNombre);
             Manager.eliminar(nombre.getText().toString());
             Toast.makeText(getApplicationContext(),"Eliminado", Toast.LENGTH_SHORT).show();
             nombre.setText("");
-            CargarVistaSedes();
         }
         if (v.getId()==R.id.btnactualizar){
             EditText nombreviejo = (EditText) findViewById(R.id.EdText1);//Nombre de sede para actualizar
@@ -106,8 +103,8 @@ public class ActualzarSedes extends ActionBarActivity implements View.OnClickLis
             Button btnactualizar = (Button) findViewById(R.id.btnactualizar);
             btnactualizar.setEnabled(false);
             nombreviejo.setText("");//queda en blanco luego de actualizar la sede
-            CargarVistaSedes();
         }
+        CargarVistaSedes();
 
     }
 
